@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App - Easy Tutorials</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="card">
+      <div class="search">
+        <input
+          type="text"
+          placeholder="도시를 입력해주세요."
+          spellcheck="false"
+        />
+        <button type="button">
+          <img src="./images/search.png" alt="검색 아이콘" />
+        </button>
+      </div>
+      <div class="error">
+        <p>Invalid city name</p>
+      </div>
+      <div class="weather">
+        <img src="/images/rain.png" alt="" class="weather-icon" />
+        <h1 class="temp">22℃</h1>
+        <h2 class="city">서울</h2>
+        <div class="details">
+          <div class="col">
+            <img src="/images/humidity.png" alt="" />
+            <div>
+              <p class="humidity">50%</p>
+              <p>Humidity</p>
+            </div>
+          </div>
+          <div class="col">
+            <img src="/images/wind.png" alt="" />
+            <div>
+              <p class="wind">15 km/h</p>
+              <p>Wind Speed</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // OpenWeatherMap API 키
+      const apiKey = "68254f4690ac5f1408ee38fdb7bb8231";
+      // OpenWeatherMap API 기본 URL (단위: 섭씨, 쿼리 파라미터 제외)
+      const apiUrl =
+        "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+
+      // HTML 요소 선택
+      const searchBox = document.querySelector(".search input"); // 도시 입력 필드
+      const searchBtn = document.querySelector(".search button"); // 검색 버튼
+      const weaterIcon = document.querySelector(".weather-icon"); // 날씨 아이콘 이미지
+
+      /**
+       * 도시의 날씨 정보를 가져와 화면에 표시하는 비동기 함수
+       * @param {string} city - 검색할 도시 이름
+       */
+      async function checkWeather(city) {
+        // API 호출 및 응답 대기
+        const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+
+        // 응답 상태 코드가 404 (Not Found)인 경우 (잘못된 도시 이름)
+        if (response.status == 404) {
+          // 에러 메시지를 표시하고 날씨 정보를 숨김
+          document.querySelector(".error").style.display = "block";
+          document.querySelector(".weather").style.display = "none";
+        } else {
+          // 응답 데이터를 JSON 형식으로 파싱
+          var data = await response.json();
+
+          // 도시 이름, 온도, 습도, 풍속 업데이트
+          document.querySelector(".city").innerHTML = data.name;
+          document.querySelector(".temp").innerHTML =
+            Math.round(data.main.temp) + "℃"; // 소수점 반올림 후 ℃ 추가
+          document.querySelector(".humidity").innerHTML =
+            data.main.humidity + "%";
+          document.querySelector(".wind").innerHTML = data.wind.speed + " km/h";
+
+          // 날씨 상태에 따라 아이콘 이미지 변경
+          if (data.weather[0].main == "Clouds") {
+            weaterIcon.src = "images/clouds.png";
+          } else if (data.weather[0].main == "Clear") {
+            weaterIcon.src = "images/clear.png";
+          } else if (data.weather[0].main == "Drizzle") {
+            weaterIcon.src = "images/drizzle.png";
+          } else if (data.weather[0].main == "Mist") {
+            weaterIcon.src = "images/mist.png";
+          } else if (data.weather[0].main == "Rain") {
+            weaterIcon.src = "images/rain.png";
+          }
+
+          // 날씨 정보를 표시하고 에러 메시지를 숨김
+          document.querySelector(".weather").style.display = "block";
+          document.querySelector(".error").style.display = "none";
+        }
+      }
+
+      // 검색 버튼 클릭 이벤트 리스너 추가
+      searchBtn.addEventListener("click", () => {
+        // 입력 필드의 값(도시 이름)으로 날씨 확인 함수 호출
+        checkWeather(searchBox.value);
+      });
+    </script>
+  </body>
+</html>
