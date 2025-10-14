@@ -2,5 +2,101 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: "Popins", sans-serif;
+}
+
+button {
+  border: 0;
+  outline: 0;
+}
+
+input {
+  border: 0;
+  outline: 0;
+}
+
+body {
+  background: #002339;
+  color: #fff;
+}
+.container {
+  margin: 12%;
+  width: 90%;
+  max-width: 700px;
+}
+
+.container h1 {
+  font-size: 45px;
+  font-weight: 500;
+}
+.container h1 span {
+  color: #019f55;
+  border-bottom: 4px solid #019f55;
+  padding-bottom: 7px;
+}
+
+.display {
+  position: relative;
+  width: 100%;
+  margin: 50px 0 30px;
+  background: #fff;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 26px 20px;
+  border-radius: 5px;
+}
+
+.display img {
+  width: 30px;
+  cursor: pointer;
+}
+
+#copy-feedback {
+  position: absolute; /* .display 컨테이너 내에서 위치 지정 */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 중앙 정렬 */
+  background-color: #4caf50; /* 녹색 배경 */
+  color: white; /* 흰색 텍스트 */
+  padding: 8px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10; /* 다른 요소 위에 표시 */
+  opacity: 0; /* 초기에는 완전히 투명하게 숨김 */
+  transition: opacity 0.5s ease-in-out; /* 부드러운 전환 효과 */
+  pointer-events: none; /* 클릭 이벤트 무시 (아래 요소 클릭 가능하도록) */
+}
+
+.hidden-feedback {
+  display: none; /* 완전히 숨김 */
+}
+
+.show-feedback {
+  opacity: 1 !important; /* 투명도를 1로 만들어 보이게 함 */
+  display: block !important;
+}
+
+.display input {
+  font-size: 24px;
+}
+
+.container button img {
+  width: 28px;
+  margin-right: 10px;
+}
+
+.container button {
+  background: #019f55;
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px 26px;
+  border-radius: 5px;
+  cursor: pointer;
 }

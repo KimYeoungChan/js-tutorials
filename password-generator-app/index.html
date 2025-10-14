@@ -1,12 +1,94 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Random Password Generator - Easy Tutorials</title>
   <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
-  
+  <div class="container">
+    <h1>Generate a <br /><span>Random Password</span></h1>
+    <div class="display">
+      <input type="text" id="passowrd" placeholder="비밀번호" />
+      <img src="/images/copy.png" alt="" onclick="copyPassword()">
+      <span id="copy-feedback" class="hidden-feedback">복사되었습니다! 🎉</span>
+    </div>
+    <button onclick="createPassword()"><img src="/images/generate.png" alt="">Cenerate Password</button>
+  </div>
+  <script>
+    const passwordBox = document.getElementById("passowrd");
+    const feedbackElement = document.getElementById("copy-feedback");
+    // 생성할 비밀번호의 총 길이를 12로 설정
+    const lenght = 12;
+
+    // 비밀번호에 사용할 수 있는 대문자(Uppercase)를 정의합니다.
+    const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    // 비밀번호에 사용할 수 있는 소문자(Lowercase)를 정의합니다.
+    const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+    // 비밀번호에 사용할 수 있는 숫자(Number)를 정의합니다.
+    const number = "0123456789";
+    // 비밀번호에 사용할 수 있는 특수 기호(Symbol)를 정의합니다.
+    const symbol = "@#$%^&*()_+~|}{[]></-=";
+
+    // 정의한 모든 종류의 문자(대문자, 소문자, 숫자, 기호)를 하나의 문자열로 합칩니다.
+    const allChars = upperCase + lowerCase + number + symbol;
+
+    function createPassword() {
+      // 새로 생성될 비밀번호를 저장할 빈 문자열 변수(passowrd)를 초기화합
+      let passowrd = "";
+
+      //    Math.random() * upperCase.length: 0부터 (대문자 개수 - 1) 사이의 난수를 생성합니다.
+      //    Math.floor(): 소수점을 버리고 정수로 만듭니다.
+      //    upperCase[...]: 해당 인덱스의 문자를 가져옵니다.
+
+      // 1. 대문자 중 하나를 무작위로 선택하여 비밀번호에 추가합니다.
+      passowrd += upperCase[Math.floor(Math.random() * upperCase.length)];
+      // 2. 소문자 중 하나를 무작위로 선택하여 비밀번호에 추가합니다.
+      passowrd += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+      // 3. 숫자 중 하나를 무작위로 선택하여 비밀번호에 추가합니다.
+      passowrd += number[Math.floor(Math.random() * number.length)];
+      // 4. 특수 기호 중 하나를 무작위로 선택하여 비밀번호에 추가합니다.
+      passowrd += symbol[Math.floor(Math.random() * symbol.length)];
+
+      // 현재 비밀번호의 길이가 목표 길이(lenght, 12)보다 작으면 계속 반복합니다.
+      while (lenght > passowrd.length) {
+        // allChars (모든 문자 집합) 중에서 무작위로 문자를 하나 선택하여 비밀번호에 추가합니다.
+        passowrd += allChars[Math.floor(Math.random() * allChars.length)];
+      }
+      // 최종적으로 완성된 비밀번호를 HTML 입력 필드(passwordBox)에 표시
+      passwordBox.value = passowrd;
+    }
+
+    function copyPassword() {
+      // 비밀번호 입력 필드(passwordBox)의 내용을 선택(하이라이트)합니다.
+      passwordBox.select();
+
+      // 모바일 환경을 위한 선택 범위 설정 (선택 사항)
+      passwordBox.setSelectionRange(0, 99999);
+
+      // 클립보드에 복사 명령 실행
+      document.execCommand('copy');
+
+      // ⭐ 복사 완료 피드백 표시 로직 ⭐
+
+      // 1. 메시지 요소를 보이게 만듭니다. (CSS 클래스 변경)
+      feedbackElement.classList.add('show-feedback');
+      feedbackElement.classList.remove('hidden-feedback');
+
+      // 2. 1.5초(1500ms) 후에 메시지를 다시 숨깁니다.
+      setTimeout(() => {
+        feedbackElement.classList.remove('show-feedback');
+        // opacity가 0이 된 후 display: none 처리 (완전히 화면에서 제거)
+        setTimeout(() => {
+          feedbackElement.classList.add('hidden-feedback');
+        }, 500); // CSS transition 시간(0.5s)과 동일하게 설정
+
+      }, 1500); // 1.5초 동안 메시지 표시
+    }
+  </script>
 </body>
+
 </html>
