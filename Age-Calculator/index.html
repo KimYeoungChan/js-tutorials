@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Age Calculator - Easy Tutorials</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="calculator">
+      <h1>JavaScript <br /><span>Age Calculator</span></h1>
+      <div class="input-box">
+        <input type="date" id="date" />
+        <button onclick="calculatorAge()" type="button">계산하기</button>
+      </div>
+      <p id="result"></p>
+    </div>
+  </div>
+  <script>
+    let userInput = document.getElementById("date");
+
+    // 오늘 날짜를 기준으로, 사용자가 미래 날짜를 선택할 수 없도록 최대 날짜(max)를 설정합니다.
+    // new Date().toString().split("'T")[0]은 "YYYY-MM-DD" 형식의 오늘 날짜 문자열을 만듭니다.
+    userInput.max = new Date().toString().split("'T")[0];
+    let result = document.getElementById("result");
+
+    function calculatorAge() {
+
+      // 사용자가 선택한 생일
+      let birthDate = new Date(userInput.value);
+
+      let d1 = birthDate.getDate();
+      // getMonth()는 0부터 시작하므로 +1을 해줍니다.
+      let m1 = birthDate.getMonth() + 1;
+      let y1 = birthDate.getFullYear();
+
+      // 현재 날짜 변수
+      let today = new Date();
+
+      let d2 = today.getDate();
+      // getMonth()는 0부터 시작하므로 +1을 해줍니다.
+      let m2 = today.getMonth() + 1;
+      let y2 = today.getFullYear();
+
+      // 최종 나이(일, 월, 년)를 저장할 변수
+      let d3, m3, y3;
+
+      // 년도 계산
+      y3 = y2 - y1;
+
+      // 월 계산
+      // 현재 월이 생일 월보다 크면 뺀다.
+      if (m2 > m1) {
+        m3 = m2 - m1;
+        // 현재 월이 생일 월보다 작으면 나이에서 1년을 빌려오고, 월에 12개월을 더한다. (생일이 지나지 않은 것임)
+      } else {
+        y3--;
+        m3 = 12 + m2 - m1;
+      }
+
+      // 일 계산
+      // 현재 일이 생일 일보다 크면 뺀다.
+      if (d2 > d1) {
+        d3 = d2 - d1;
+      } else {
+        // 현재 날짜가 생일 날짜보다 작으면 (아직 해당 월의 생일이 지나지 않았다는 뜻),
+        // 이전 달의 일수(getDaysInMonth 함수 사용)를 빌려와 현재 일 수(d2)에 더한 후 생일 날짜(d1)를 뺍니다.
+        d3 = getDaysInMonth(y1, m1) + d2 - d1;
+      }
+      // 월 계산 보정(일 계산에서 월을 빌려와 m3가 음수가 되었을 경우)
+      // 월이 음수라면(즉, 일수를 빌려오는 과정에서 월이 마이너스가 되었다면),
+      if (m3 < 0) {
+        // 월을 11로 설정하고 (12개월 - 1개월 = 11개월), 다시 년도(y3)에서 1년을 빌려옵니다.  
+        m3 == 11;
+        y3--;
+      }
+      // console.log(y3, m3, d3)
+      result.innerHTML = `너의 나이는 <span>${y3}</span>세, <span>${m3}</span>개월, <span>${d3}</span>일이야!`;
+    }
+
+    // 이전 달의 총 일수를 계산하는 함수
+    function getDaysInMonth(year, month) {
+      // new Date(year, month, 0)는 "해당 연도의 해당 월의 0번째 날", 즉 "이전 달의 마지막 날"을 나타냅니다.
+      // .getDate()를 사용하여 그 마지막 날의 '일'을 가져오면, 그 달의 총 일수가 됩니다.
+      // (예: new Date(2023, 1, 0) -> 2023년 1월의 0번째 날, 즉 12월 31일 -> 31을 반환)
+      return new Date(year, month, 0).getDate();
+    }
+  </script>
+</body>
+
+</html>
