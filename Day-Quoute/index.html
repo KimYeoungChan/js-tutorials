@@ -5,62 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quote of the day</title>
     <link rel="stylesheet" href="main.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css"
-    />
-
-    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
-  </head>
-  <body>
-    <!-- Slider main container -->
-    <div class="swiper main-swiper">
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide">Slide 1</div>
-        <div class="swiper-slide">Slide 2</div>
-        <div class="swiper-slide">Slide 3</div>
-        ...
-      </div>
-      <!-- If we need pagination -->
-      <div class="swiper-pagination"></div>
-
-      <!-- If we need navigation buttons -->
-      <div class="swiper-button-prev"></div>
-      <div class="swiper-button-next"></div>
-
-      <!-- If we need scrollbar -->
-      <div class="swiper-scrollbar"></div>
-    </div>
-
-    <script>
-      const swiper = new Swiper('.swiper', {
-  // Optional parameters
-  direction: 'vertical',
-  loop: true,
-
-  // If we need pagination
-  pagination: {
-    el: '.swiper-pagination',
-  },
-
-  // Navigation arrows
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-
-  // And if we need scrollbar
-  scrollbar: {
-    el: '.swiper-scrollbar',
-  },
-});
-    </script>
-    <!-- <div class="quote-box">
+    <div class="quote-box">
       <h2>Quote of the day</h2>
-      <blockquote>Loading...</blockquote>
-      <span>Loading...</span>
-    </div> -->
+      <blockquote id="quote">Loading...</blockquote>
+      <span id="author">Loading...</span>
+      <div class="button_box">
+        <button type="button" onclick="getQuote(api_url);">New Quote</button>
+        <button type="button" onclick="tweet()">
+          <img src="twitter.png" alt="">
+          Tweet
+        </button>
+      </div>
+    </div>
+    <script>
+      const quote = document.getElementById("quote");
+      const author = document.getElementById("author");
+      // 인용구를 무작위로 가져올 API의 URL입니다.
+      const api_url = "https://api.quotable.io/random";
+
+      async function getQuote(url) {
+        // API로부터 데이터를 가져옵니다 (비동기 작업)
+          const response = await fetch(url);
+          // 응답 본문을 JSON으로 파싱합니다 (비동기 작업)
+          var data = await response.json();
+          // 콘솔에 가져온 데이터를 출력하여 확인합니다.
+          console.log(data);
+          // 인용구의 내용(content)을 'quote' 요소의 HTML 내용으로 설정합니다.
+          quote.innerHTML = data.content;
+          // 인용구의 저자(author)를 'author' 요소의 HTML 내용으로 설정합니다
+          author.innerHTML = data.author;
+      }
+
+      // 인용구의 저자(author)를 'author' 요소의 HTML 내용으로 설정합니다
+      getQuote(api_url);
+
+    /**
+ * 현재 표시된 인용구를 Twitter에 공유하는 새로운 창을 여는 함수입니다.
+ */
+function tweet() {
+    // window.open을 사용하여 새 창을 엽니다.
+    // 첫 번째 인자는 트윗 의도(intent) URL입니다.
+    // 'text' 파라미터에 인용구 내용과 저자를 포함합니다.
+    const tweetText = quote.innerHTML + " ----- by " + author.innerHTML;
+    const tweetUrl = "https://twitter.com/intent/tweet?text=" + encodeURIComponent(tweetText);
+
+    // 두 번째 인자는 새 창의 이름입니다.
+    // 세 번째 인자는 창의 크기와 옵션입니다.
+    window.open(tweetUrl, "Tweet Window", "width=600, height=300");
+}
+    </script>
   </body>
 </html>
