@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toast notification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+    integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <div class="btn_wrap">
+    <button type="button" onclick="showToast(successMsg)">Success</button>
+    <button type="button" onclick="showToast(errorMsg)">Error</button>
+    <button type="button" onclick="showToast(invaildMsg)">Invalid</button>
+  </div>
+
+  <div id="toast_box"></div>
+  <script>
+    let toastBox = document.getElementById('toast_box');
+    let successMsg = '<i class="fa-solid fa-circle-check"></i> Successfully submitted';
+    let errorMsg = '<i class="fa-solid fa-circle-xmark"></i> Please fix to error!';
+    let invaildMsg = '<i class="fa-solid fa-circle-exclamation"></i> Invalid input, check again!';
+
+    function showToast(msg) {
+      let toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.innerHTML = msg;
+      toastBox.appendChild(toast);
+
+      // msg 문자열이 'error'이 있으면
+      if (msg.includes('error')) {
+        toast.classList.add('error')
+      }
+      // msg 문자열이 'Invalid'이 있으면
+      if (msg.includes('Invalid')) {
+        toast.classList.add('invalid')
+      }
+
+      // 6초 뒤에 사라진다.
+      setTimeout(() => {
+        toast.remove();
+      }, 6000)
+    }
+  </script>
+</body>
+
+</html>
