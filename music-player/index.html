@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Music Player Design - Easy Tutorials</title>
+    <link rel="stylesheet" href="main.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="music-player">
+        <nav>
+          <div class="circle">
+            <i class="fa-solid fa-chevron-left"></i>
+          </div>
+          <div class="circle">
+            <i class="fa-solid fa-bars"></i>
+          </div>
+        </nav>
+        <img src="/media/thumnail.jfif" class="song-img" alt="" />
+        <h1>노래제목</h1>
+        <p>가수이름</p>
+
+        <audio id="song">
+          <source src="/media/player.mp4" />
+        </audio>
+        <input type="range" value="0" id="progress" />
+
+        <div class="controls">
+          <div><i class="fa-solid fa-backward"></i></div>
+          <div onclick="playPause()">
+            <i class="fa-solid fa-play" id="ctrlIcon"></i>
+          </div>
+          <div><i class="fa-solid fa-forward"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let progress = document.getElementById("progress");
+      let song = document.getElementById("song");
+      let ctrlIcon = document.getElementById("ctrlIcon");
+
+      // 2. 노래 정보가 로드되면 실행할 초기 설정
+// (노래를 불러왔을 때 한 번 실행됩니다.)
+song.onloadedmetadata = function () {
+  // 음악의 총 길이(duration)를 진행 바의 최대값(max)으로 설정합니다.
+  progress.max = song.duration;
+  // 진행 바의 현재 위치(value)를 음악의 현재 재생 시간(currentTime)으로 설정합니다.
+  progress.value = song.currentTime;
+};
+
+// 3. 재생/일시정지 기능을 담당하는 함수 정의
+function playPause() {
+  // 현재 아이콘이 '일시정지' 모양인지 (즉, 음악이 재생 중인지) 확인합니다.
+  if (ctrlIcon.classList.contains("fa-pause")) {
+    // 🎵 음악을 멈추고 (일시정지)
+    song.pause();
+    // 아이콘을 '일시정지'에서 '재생' 모양으로 바꿉니다.
+    ctrlIcon.classList.remove("fa-pause");
+    ctrlIcon.classList.add("fa-play");
+  } else {
+    // ⏯️ 음악을 재생하고 (멈춰있거나 처음 상태일 때)
+    song.play();
+    // 아이콘을 '재생'에서 '일시정지' 모양으로 바꿉니다.
+    ctrlIcon.classList.add("fa-pause");
+    ctrlIcon.classList.remove("fa-play");
+  }
+}
+
+// 4. 음악이 재생되는 동안 진행 바를 업데이트하는 로직
+// (⚠️ 주의: `song.play()`는 실행 명령일 뿐, 현재 재생 상태를 확인하는 정확한 방법은 아닙니다.
+//       이 부분은 "음악 재생을 시도하면" 실행되도록 작성된 것으로 보입니다.)
+if (song.play()) {
+  // 0.5초(500밀리초)마다 한 번씩 내부 코드를 반복해서 실행합니다.
+  setInterval(() => {
+    // 진행 바의 위치를 현재 음악 재생 시간으로 업데이트하여, 바가 움직이게 합니다.
+    progress.value = song.currentTime;
+  }, 500);
+}
+
+// 5. 사용자가 진행 바를 움직였을 때 음악 시간도 변경하는 로직
+// (⚠️ 주의: `<input type="range">`에는 보통 `onchange`나 `oninput` 이벤트를 사용합니다.
+//       여기서는 `onchange` 이벤트가 사용된 것으로 가정하고 설명합니다.)
+progress.onchange = function () {
+  // 사용자가 바를 움직였으니, 음악 재생을 시작/유지합니다.
+  song.play();
+  // 음악의 재생 시간을 진행 바가 가리키는 시간으로 즉시 이동시킵니다. (탐색 기능)
+  song.currentTime = progress.value;
+  // 탐색 후에는 음악이 재생 중이므로 아이콘을 '일시정지' 모양으로 설정합니다.
+  ctrlIcon.classList.add("fa-pause");
+  ctrlIcon.classList.remove("fa-play");
+};
+    </script>
+  </body>
+</html>
