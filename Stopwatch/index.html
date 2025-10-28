@@ -1,19 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Stopwatch Using JavaScript - Easy Tutorials</title>
-  <link rel="stylesheet" href="style.css">
+  <title>StopWatch Using Javascript - Easy Tutorials</title>
+  <link rel="stylesheet" href="main.css">
 </head>
+
 <body>
   <div class="stopwatch">
-    <h1>00:00:00</h1>
+    <h1 id="displayTime">00:00:00</h1>
     <div class="buttons">
-      <img src="/images/stop.png" alt="">
-      <img src="/images/start.png" alt="">
-      <img src="/images/reset.png" alt="">
+      <img src="./images/stop.png" alt="" onclick="watchStop()">
+      <img src="./images/start.png" alt="" onclick="watchStart()">
+      <img src="./images/reset.png" alt="" onclick="watchReset()">
     </div>
   </div>
+
+  <script>
+
+    // [초, 분, 시]를 저장할 변수들을 0으로 초기화합니다.
+    let [seconds, minutes, hours] = [0, 0, 0];
+    let displayTime = document.getElementById("displayTime");
+
+    // setInterval의 ID(타이머)를 저장할 변수를 초기화합니다.
+    // 이 변수를 사용하여 타이머를 정지(clearInterval)할 수 있습니다.
+    let timer = null;
+
+
+    // 시간(초, 분, 시)을 계산하고 화면에 업데이트하는 핵심 함수입니다.
+    function stopwatch() {
+      // 1. 초(seconds)를 1 증가시킵니다.
+      seconds++;
+
+      // 2. 초가 60이 되면 (1분이 되면)
+      if (seconds == 60) {
+        seconds = 0; // 초를 0으로 리셋하고
+        minutes++; // 분(minutes)을 1 증가시킵니다.
+
+        // 3. 분이 60이 되면 (1시간이 되면)
+        if (minutes == 60) {
+          minutes = 0; // 분을 0으로 리셋하고
+          hours++; // 시(hours)를 1 증가시킵니다.
+        }
+      }
+
+      // 숫자가 10보다 작으면 앞에 "0"을 붙입니다.
+      let h = hours < 10 ? "0" + hours : hours;
+      let m = minutes < 10 ? "0" + minutes : minutes;
+      let s = seconds < 10 ? "0" + seconds : seconds;
+
+      // 'displayTime' 요소에 계산된 시간을 표시합니다.
+      displayTime.innerHTML = `${h}:${m}:${s}`;
+    }
+
+    // 스톱워치를 시작하는 함수입니다.
+    function watchStart() {
+      // 기존에 실행 중인 타이머가 있다면(timer !== null) 먼저 멈춥니다.
+      // 이중 클릭 등으로 인해 여러 개의 타이머가 동시에 실행되는 것을 방지합니다.
+      if (timer !== null) {
+        clearInterval(timer);
+      }
+      // 1000밀리초(1초)마다 'stopwatch' 함수를 반복해서 실행하도록 타이머를 설정하고,
+      // 그 ID를 'timer' 변수에 저장합니다.
+      timer = setInterval(stopwatch, 1000);
+    }
+
+    // 스톱워치를 일시 정지(멈추는) 함수입니다.
+    function watchStop() {
+      // 'timer' 변수에 저장된 타이머(setInterval)의 실행을 멈춥니다.
+      clearInterval(timer)
+    }
+
+    // 스톱워치를 초기화(리셋)하는 함수입니다.
+    function watchReset() {
+      // 1. 먼저 실행 중인 타이머를 멈춥니다.
+      clearInterval(timer);
+      // 2. 시간 변수들(초, 분, 시)을 모두 0으로 리셋합니다.
+      [seconds, minutes, hours] = [0, 0, 0];
+      // 3. 화면 표시(displayTime)를 "00:00:00"으로 초기화합니다.
+      displayTime.innerHTML = "00:00:00";
+    }
+  </script>
 </body>
+
 </html>
