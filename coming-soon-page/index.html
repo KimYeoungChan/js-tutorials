@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Subscribe Form To Google Sheet - Easy Tutorials</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <div class="hero">
+    <h3>Coming Soon!</h3>
+    <h1>OurBrand New<br />Website Is On It's Way</h1>
+    <p>Subscribe for more details.</p>
+    <form name="submit-to-google-sheet">
+      <input type="email" name="Email" placeholder="Your email id" required />
+      <button type="submit"><img src="/email-subs-img/send-icon.png" width="30px" alt=""></button>
+    </form>
+    <span id="msg"></span>
+  </div>
+  <script>
+    // **Google Apps Script**로 배포된 웹 앱 URL입니다. 
+    // 이 URL이 폼 데이터를 받아 Google Sheet에 기록하는 역할을 합니다.
+
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxjrF_g3WUAk60aJlJFRUXnZNUNJ1prNAaZzI8bcIaXtuGHzziB1-aTw5a8lz6UvgLi/exec'
+    const form = document.forms['submit-to-google-sheet'];
+    const msg = document.getElementById('msg');
+
+    // 폼 제출(submit) 이벤트를 감지합니다.
+
+    form.addEventListener('submit', e => { // 폼의 기본 제출 동작(페이지 새로고침)을 막습니다. (핵심!)
+
+      e.preventDefault() // **Fetch API**를 사용하여 데이터를 **Google Apps Script** URL로 **비동기적**으로 전송합니다.
+      fetch(scriptURL, {
+        method: 'POST', // 데이터를 보내는 방식
+        body: new FormData(form) // 폼의 모든 입력 데이터를 가져와서 전송할 수 있는 형태로 만듭니다.
+
+      }) // 전송이 성공했을 때 (Google Sheets에 기록 완료)
+        .then(response => { // 성공 메시지를 화면에 표시합니다.
+
+          msg.innerHTML = "구독해주셔서 감사합니다." // 5초(5000밀리초) 후에 메시지를 사라지게 합니다.
+
+          setTimeout(function () {
+            msg.innerHTML = "";
+          }, 5000) // 폼 입력 필드를 초기화합니다.
+          form.reset();
+        }) // 전송 중 에러가 발생했을 때
+        .catch(error => console.error('Error!', error.message))
+    })
+  </script>
+</body>
+
+</html>
