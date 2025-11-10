@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Drag & Drop Using JavaScript - Easy Tutorials</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div id="left">
+        <div class="list" draggable="true">
+          <img src="/drag_drop_icon.png" alt="">
+          List Item1
+        </div>
+        <div class="list" draggable="true">
+          <img src="/drag_drop_icon.png" alt="">
+          List Item2
+        </div>
+        <div class="list" draggable="true">
+          <img src="/drag_drop_icon.png" alt="">
+          List Item3
+        </div>
+        <div class="list" draggable="true">
+          <img src="/drag_drop_icon.png" alt="">
+          List Item4
+        </div>
+      </div>
+      <div id="right"></div>
+    </div>
+    <script>
+      let lists = document.querySelectorAll('.list');
+      let rightBox = document.querySelector('#right')
+      let leftBox = document.querySelector('#left');
+
+      // 선택된 모든 리스트 항목(lists)을 반복하면서 각각에 드래그 이벤트 리스너를 추가합니다.
+    for(list of lists) {
+        
+        // 각 리스트 항목에 'dragstart' 이벤트 리스너를 추가합니다.
+        // 항목을 드래그하기 시작할 때 이 함수가 실행됩니다.
+        list.addEventListener('dragstart', function(e){
+            
+            // 현재 드래그를 시작한 요소(e.target)를 'selected' 변수에 저장합니다.
+            // 이 요소가 드롭될 대상입니다.
+            let selected = e.target;
+
+            // --- 오른쪽 영역(rightBox)에 대한 드래그 이벤트 처리 ---
+
+            // rightBox에 'dragover' 이벤트 리스너를 추가합니다.
+            // 드래그 중인 항목이 rightBox 위로 지나갈 때마다 이 함수가 실행됩니다.
+            rightBox.addEventListener('dragover', function(e){
+                // 기본 동작(링크 열기 등)을 막아 드롭이 가능하도록 합니다. (필수!)
+                e.preventDefault();
+            });
+            
+            // rightBox에 'drop' 이벤트 리스너를 추가합니다.
+            // 드래그 중인 항목이 rightBox에 드롭될 때 이 함수가 실행됩니다.
+            rightBox.addEventListener('drop', function(e){
+                // rightBox의 자식 요소로 드래그된 항목(selected)을 추가합니다. (이동!)
+                rightBox.appendChild(selected);
+                
+                // 드롭이 완료되었으므로 'selected' 변수를 초기화합니다.
+                selected = null;
+            })
+
+            // --- 왼쪽 영역(leftBox)에 대한 드래그 이벤트 처리 ---
+            
+            // leftBox에 'dragover' 이벤트 리스너를 추가합니다.
+            // 드래그 중인 항목이 leftBox 위로 지나갈 때마다 이 함수가 실행됩니다.
+            leftBox.addEventListener('dragover', function(e){
+                // 기본 동작을 막아 드롭이 가능하도록 합니다.
+                e.preventDefault();
+            });
+            
+            // leftBox에 'drop' 이벤트 리스너를 추가합니다.
+            // 드래그 중인 항목이 leftBox에 드롭될 때 이 함수가 실행됩니다.
+            leftBox.addEventListener('drop', function(e){
+                // leftBox의 자식 요소로 드래그된 항목(selected)을 추가합니다. (이동!)
+                leftBox.appendChild(selected);
+                
+                // 드롭이 완료되었으므로 'selected' 변수를 초기화합니다.
+                selected = null;
+            })
+        })
+    }
+    </script>
+  </body>
+</html>
