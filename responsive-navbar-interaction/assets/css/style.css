@@ -1,0 +1,117 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+:root {
+  --header-height: 3.5rem;
+
+  --first-color: rgba(0, 16, 245, 1); /* HSL(236, 100%, 48%) */
+  --black-color: rgba(0, 0, 0, 1); /* HSL(0, 0%, 0%) */
+  --white-color: rgba(255, 255, 255, 1); /* HSL(0, 0%, 100%) */
+  --body-color: rgba(255, 255, 255, 1); /* HSL(0, 0%, 100%) */
+  --nav-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); /* HSLA(0, 0%, 0%, .3) */
+
+  --body-font: "Montserrat", sans-serif;
+  --normal-font-size:0.938rem;
+  --small-font-size:0.813rem;
+}
+
+/*========== Responsive typography ==========*/
+@media screen and (min-width: 1150px) {
+  :root {
+    --normal-font-size: 1rem;
+    --small-font-size: .875rem;
+  }
+}
+
+/*=============== BASE ===============*/
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  background-color: var(--body-color);
+}
+
+button {
+  outline: none;
+  border: none;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* header */
+.header {
+  position: fixed;
+  top: 1.5rem;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.nav {
+  height: var(--header-height);
+  background-color: var(--black-color);
+  padding: 0.5rem 1rem 0.5rem 0.5rem;
+  border-radius: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--nav-shadow);
+}
+
+.nav__logo {
+  width: 40px;
+  height: 40px;
+  background-color: var(--white-color);
+  display: grid;
+  place-items:center;
+  border-radius: 50%;
+}
+
+.nav__logo i {
+  font-size: 1.5rem;
+  color: var(--first-color);
+  transition: tranform 0.6s;
+}
+
+.nav__logo:hover i {
+  transform: rotateY(-360deg);
+}
+
+.nav__buttons {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+}
+
+.nav__email {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  padding: 0.75rem 1rem;
+  border-radius: 4rem; 
+  font:500 var(--small-font-size) var(--body-color);
+  display: grid;
+  place-items: center;
+  position: relative;
+  /* overflow: hidden; */
+  cursor: pointer;
+}
+
+.nav__email span {
+  transition: transform 0.2s;
+}
+
+.nav__email span:nth-child(2) {
+  position: absolute;
+  transform: translateY(200%);
+  color: red;
+}

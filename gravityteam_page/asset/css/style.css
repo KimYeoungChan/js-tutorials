@@ -1,0 +1,113 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@import url("/asset/css/reset.css");
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background-color: #141619;
+}
+
+/* header */
+
+header {
+  height: 88px;
+  padding: 22px 4%;
+}
+
+.inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* gnb_box */
+.gnb_box ul {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
+
+.gnb_box ul li a {
+  color: #fff;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0.53px;
+  text-transform: uppercase;
+}
+
+/* rightBox */
+.right_box .button_box {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+}
+
+.right_box .circle_box {
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  background: linear-gradient(135deg,rgba(102, 93, 205, 1) 0%, rgba(95, 164, 230, 1) 45%, rgba(210, 171, 103, 1) 100%);
+}
+
+
+.right_box .txtBox {
+  color: #fff;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: 0.53px;
+  text-transform: uppercase;
+}
+
+
+/* sec01 */
+
+.sec01  {
+  margin-top: 28px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sec01 .txtBox {
+  text-align: center;
+  color: #fff;
+}
+
+.sec01 .txtBox h1 {
+  font-weight: 500;
+  font-size: 76px;
+  line-height: 87px;
+}
+
+.sec01 .txtBox h2 {
+  margin-top: 70px;
+  font-weight: 500;
+  font-size: 74px;
+  line-height: 86px;
+}
+
+.sec01 .button_box {
+  width: 100%;
+  margin-top: 162px;
+  text-align: center;
+}
+
+.sec01 .button_box  a {
+  margin: 0 auto;
+  width: 192px;
+  height: 58px;
+  display: flex;
+  justify-content: center;
+  align-items:center;
+  color: #fff;
+  font-weight: 500;
+  font-size: 19px;
+  line-height: 22px;
+  border-radius: 2px;
+  background: linear-gradient(135deg, #665DCD 0%, #5FA4E6 44.76%, #D2AB67 100%);
+}
